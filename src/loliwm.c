@@ -508,11 +508,11 @@ view_state_request(struct wlc_compositor *compositor, struct wlc_view *view, con
 }
 
 static bool
-pointer_button(struct wlc_compositor *compositor, struct wlc_view *view, uint32_t time, const struct wlc_modifiers *modifiers, uint32_t button, enum wlc_button_state state)
+pointer_motion(struct wlc_compositor* compositor, struct wlc_view* view, uint32_t time, const struct wlc_origin* origin)
 {
-   (void)time, (void)modifiers, (void)button;
+   (void) origin, (void)time;
 
-   if (state == WLC_BUTTON_STATE_PRESSED)
+   if (loliwm.active != view)
       set_active(compositor, view);
 
    return true;
@@ -749,7 +749,7 @@ main(int argc, char *argv[])
       },
 
       .pointer = {
-         .button = pointer_button,
+         .motion = pointer_motion,
       },
 
       .keyboard = {
